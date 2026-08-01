@@ -8,12 +8,18 @@ SHELL ["/busybox/sh", "-c"]
 
 ARG TARGETARCH
 
-RUN wget -O /kaniko/jq \
-    https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-linux-${TARGETARCH} && \
+RUN for i in 1 2 3 4 5; do \
+        wget -O /kaniko/jq \
+            "https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-linux-${TARGETARCH}" \
+            && break || sleep 5; \
+    done && \
     chmod +x /kaniko/jq && \
     CRANE_ARCH=$( [ "${TARGETARCH}" = "amd64" ] && echo "x86_64" || echo "${TARGETARCH}" ) && \
-    wget -O /crane.tar.gz \
-    "https://github.com/google/go-containerregistry/releases/download/v0.17.0/go-containerregistry_Linux_${CRANE_ARCH}.tar.gz" && \
+    for i in 1 2 3 4 5; do \
+        wget -O /crane.tar.gz \
+            "https://github.com/google/go-containerregistry/releases/download/v0.17.0/go-containerregistry_Linux_${CRANE_ARCH}.tar.gz" \
+            && break || sleep 5; \
+    done && \
     tar -xvzf /crane.tar.gz crane -C /kaniko && \
     rm /crane.tar.gz
 
