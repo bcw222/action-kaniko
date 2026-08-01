@@ -1,5 +1,5 @@
 build:
-	docker build -t bcw222/kaniko .
+	docker build -t bcw222/action-kaniko .
 
 run: build
 	docker run \
@@ -15,10 +15,10 @@ run: build
 		-e INPUT_CACHE_REGISTRY \
 		-e INPUT_STRIP_TAG_PREFIX \
 		-e INPUT_SKIP_UNCHANGED_DIGEST \
-	bcw222/kaniko
+	bcw222/action-kaniko
 
 shell: build
 	docker run \
 		-ti \
 		--entrypoint sh \
-	bcw222/kaniko
+	bcw222/action-kaniko
