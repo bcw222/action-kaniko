@@ -6,14 +6,14 @@ FROM gcr.io/kaniko-project/executor:v1.23.2-debug
 
 SHELL ["/busybox/sh", "-c"]
 
+ARG TARGETARCH
+
 RUN wget -O /kaniko/jq \
-    https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-linux64 && \
+    https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-linux-${TARGETARCH} && \
     chmod +x /kaniko/jq && \
-    wget -O /kaniko/reg \
-    https://github.com/genuinetools/reg/releases/download/v0.16.1/reg-linux-386 && \
-    chmod +x /kaniko/reg && \
+    CRANE_ARCH=$( [ "${TARGETARCH}" = "amd64" ] && echo "x86_64" || echo "${TARGETARCH}" ) && \
     wget -O /crane.tar.gz \
-    https://github.com/google/go-containerregistry/releases/download/v0.17.0/go-containerregistry_Linux_x86_64.tar.gz && \
+    "https://github.com/google/go-containerregistry/releases/download/v0.17.0/go-containerregistry_Linux_${CRANE_ARCH}.tar.gz" && \
     tar -xvzf /crane.tar.gz crane -C /kaniko && \
     rm /crane.tar.gz
 
