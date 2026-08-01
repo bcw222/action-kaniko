@@ -62,4 +62,4 @@ outputs:
     description: "Full reference to the built image with registry and tag"
 runs:
   using: "docker"
-  image: "Dockerfile"
+  image: "docker://ghcr.io/bcw222/action-kaniko:v1"

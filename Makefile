@@ -1,5 +1,5 @@
 build:
-	docker build -t aevea/kaniko .
+	docker build -t bcw222/kaniko .
 
 run: build
 	docker run \
@@ -15,10 +15,10 @@ run: build
 		-e INPUT_CACHE_REGISTRY \
 		-e INPUT_STRIP_TAG_PREFIX \
 		-e INPUT_SKIP_UNCHANGED_DIGEST \
-	aevea/kaniko
+	bcw222/kaniko
 
 shell: build
 	docker run \
 		-ti \
 		--entrypoint sh \
-	aevea/kaniko
+	bcw222/kaniko

@@ -7,6 +7,8 @@ This Action uses the [kaniko](https://github.com/GoogleContainerTools/kaniko) ex
 by extracting the filesystem of the base image, making the changes in the user space, snapshotting any change and appending it to the base
 image filesystem.
 
+The action image is **pre-built and published** via GitHub Actions, so runners pull the ready-to-use image instead of building it on every run. The image is automatically rebuilt on every push to the repository and tagged with the release version.
+
 This allows for a quite efficient caching, that can be pushed to another docker registry and downloaded on-demand, and a noticeably easier and
 more secure secret passing to the build context, as it happens in the user space itself.
 
@@ -22,13 +24,11 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Kaniko build
-        uses: aevea/action-kaniko@master
+        uses: bcw222/action-kaniko@master
         with:
-          image: aevea/kaniko
+          image: your/image
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          cache: true
-          cache_registry: aevea/cache
 ```
 
 ## Required Arguments
